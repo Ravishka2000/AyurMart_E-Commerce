@@ -1,11 +1,10 @@
-import express from "express";
-import Product from "../models/Product.js";
+import Product from "../../models/Product.js";
 
 const getAllProucts = async (req, res) => {
     try {
         const products = await Product.find();
-        res.status(200).json({ 
-            products: products ,
+        res.status(200).json({
+            products: products,
             message: "Products found"
         });
     } catch (error) {
