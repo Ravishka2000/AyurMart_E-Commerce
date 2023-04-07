@@ -1,9 +1,9 @@
 import React from 'react';
-import { Container, Grid, Typography, TextField, Button, Link, FormControl, InputLabel, OutlinedInput, Box } from '@mui/material';
+import { Container, Grid, Typography, Button, Link, FormControl, InputLabel, OutlinedInput, Box } from '@mui/material';
 
 function Footer() {
     return (
-        <footer style={{ backgroundColor: '#eee', padding: '24px', marginTop: '24px' }}>
+        <Box style={{ backgroundColor: '#eee', paddingX: '24px', marginTop: '50px' }}>
             <Container maxWidth="xl">
                 <Grid container spacing={5}>
                     <Grid item xs={12} md={4}>
@@ -75,7 +75,7 @@ function Footer() {
                     © 2023 Herb Shop. All rights reserved.
                 </Typography>
             </Container>
-        </footer>
+        </Box>
     );
 }
 

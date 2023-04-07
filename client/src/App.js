@@ -10,14 +10,17 @@ function App() {
             <Header>
                 <Header />
             </Header>
-            <main>
+
+            <main style={{ marginBottom: "50px" }}>
                 <Routes>
                     <Route path="/" element={<Home />} exact></Route>
                 </Routes>
             </main>
-            
+
+            <Footer>
                 <Footer />
-            
+            </Footer>
+
         </React.Fragment>
     );
 }

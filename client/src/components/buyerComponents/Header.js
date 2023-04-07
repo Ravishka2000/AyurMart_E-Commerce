@@ -1,6 +1,6 @@
-import react, { useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar, Toolbar, IconButton, Badge, Typography, Tabs, Tab, Menu, MenuItem } from '@mui/material';
-import { ShoppingCart, AccountCircle, Category } from '@mui/icons-material';
+import { ShoppingCart, AccountCircle } from '@mui/icons-material';
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
