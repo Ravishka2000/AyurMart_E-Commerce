@@ -1,18 +1,19 @@
-const express = require("express");
-const stripe = require("stripe");
-
-require("dotenv").config();
+import express from "express";
+import Stripe from "stripe";
+import dotenv from "dotenv";
+dotenv.config();
 
 const stripe = Stripe(process.env.STRIPE_KEY);
 
 const router = express.Router();
+const app = express();
 
 app.post('/create-checkout-session', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: '{{PRICE_ID}}',
+          price: 2000,
           quantity: 1,
         },
       ],
@@ -24,4 +25,4 @@ app.post('/create-checkout-session', async (req, res) => {
     res.send({url: session.url });
   });
 
-module.exports = router;
+export default router;

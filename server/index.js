@@ -10,7 +10,7 @@ import BrandRoutes from "./routes/BrandRotes.js";
 import CouponRoutes from "./routes/CouponRoutes.js";
 import Handlers from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
-
+import stripe from "./routes/Stripe.js";
 
 dotenv.config();
 
