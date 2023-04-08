@@ -1,75 +1,133 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Badge, Typography, Tabs, Tab, Menu, MenuItem } from '@mui/material';
-import { ShoppingCart, AccountCircle } from '@mui/icons-material';
+import React, { useState } from "react";
+import { AppBar, Box, Tooltip, IconButton, Avatar, Menu, MenuItem, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SpaIcon from '@mui/icons-material/Spa';
+import DrawerComp from "./Drawer";
 
 const Header = () => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     const [value, setValue] = useState(0);
+    const theme = useTheme();
+    const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+
+    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
     };
 
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
     return (
-        <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    AyurMart
-                </Typography>
-                <Tabs value={value} onChange={handleChange} aria-label="menu tabs">
-                    <Tab label="Products" sx={{ minWidth: 120 }} />
-                    <Tab label="Brands" sx={{ minWidth: 120 }} />
-                    <Tab label="Categories" sx={{ minWidth: 120 }} />
-                </Tabs>
-                <div>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="error">
-                            <ShoppingCart />
-                        </Badge>
-                    </IconButton>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleMenu}
-                        color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                    </Menu>
-                </div>
-            </Toolbar>
-        </AppBar>
+        <>
+            <AppBar sx={{ background: "#063970", padding: "15px" }}>
+                <Toolbar>
+                    <SpaIcon sx={{ transform: "scale(2)" }} />
+                    <Typography sx={{
+                        fontSize: "2rem",
+                        paddingLeft: "2%",
+                        display: { xs: 'none', md: 'flex' },
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        letterSpacing: '.3rem',
+                        color: 'inherit',
+                        textDecoration: 'none',
+                    }}>
+                        AYURMART
+                    </Typography>
+                    {isMatch ? (
+                        <>
+
+                            <Tooltip title="Open Cart">
+                                <ShoppingCartIcon sx={{ marginLeft: "auto", transform: "scale(1.5)" }} />
+                            </Tooltip>
+                            <Box sx={{ flexGrow: 0, marginLeft: "40px" }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </Box>
+                            <DrawerComp />
+                        </>
+                    ) : (
+                        <>
+                            <Tabs
+                                sx={{ marginLeft: "auto", fontFamily: 'monospace', fontSize: "24px" }}
+                                indicatorColor="secondary"
+                                textColor="inherit"
+                                value={value}
+                                onChange={(e, value) => setValue(value)}
+                            >
+                                <Tab label="Home" />
+                                <Tab label="Category" />
+                                <Tab label="About Us" />
+                                <Tab label="Contact" />
+                            </Tabs>
+
+                            <Tooltip title="Open Cart">
+                                <ShoppingCartIcon sx={{ marginLeft: "auto", transform: "scale(1.5)" }} />
+                            </Tooltip>
+                            <Box sx={{ flexGrow: 0, marginLeft: "40px" }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </Box>
+                        </>
+                    )}
+                </Toolbar>
+            </AppBar>
+        </>
     );
-}
+};
 
 export default Header;

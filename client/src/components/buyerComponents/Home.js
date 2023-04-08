@@ -37,7 +37,7 @@ const Home = () => {
 
 
     return (
-        <Box sx={{ overflowX: "hidden" }}>
+        <Box sx={{ overflowX: "hidden", marginTop: "96px" }}>
             <Box>
                 <Carousel
                     indicatorContainerProps={{

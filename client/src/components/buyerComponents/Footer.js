@@ -71,7 +71,7 @@ function Footer() {
                     </Grid>
 
                 </Grid>
-                <Typography variant="body2" component="p" style={{ marginTop: '16px' }}>
+                <Typography variant="body2" component="p" style={{ marginTop: '16px', paddingBottom: '20px' }}>
                     © 2023 Herb Shop. All rights reserved.
                 </Typography>
             </Container>
