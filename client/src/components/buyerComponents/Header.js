@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import { AppBar, Box, Tooltip, IconButton, Avatar, Menu, MenuItem, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SpaIcon from '@mui/icons-material/Spa';
@@ -42,7 +43,9 @@ const Header = () => {
                         <>
 
                             <Tooltip title="Open Cart">
-                                <ShoppingCartIcon sx={{ marginLeft: "auto", transform: "scale(1.5)" }} />
+                                <Link to="/cart" style={{ marginLeft: "auto",textDecoration:"none", color:"white"}}>
+                                    <ShoppingCartIcon sx={{ transform: "scale(1.5)" }} />
+                                </Link>
                             </Tooltip>
                             <Box sx={{ flexGrow: 0, marginLeft: "40px" }}>
                                 <Tooltip title="Open settings">
@@ -91,7 +94,9 @@ const Header = () => {
                             </Tabs>
 
                             <Tooltip title="Open Cart">
-                                <ShoppingCartIcon sx={{ marginLeft: "auto", transform: "scale(1.5)" }} />
+                                <Link to="/cart" style={{marginLeft: "auto",textDecoration:"none", color:"white"}}>
+                                    <ShoppingCartIcon sx={{ transform: "scale(1.5)" }} />
+                                </Link>
                             </Tooltip>
                             <Box sx={{ flexGrow: 0, marginLeft: "40px" }}>
                                 <Tooltip title="Open settings">
