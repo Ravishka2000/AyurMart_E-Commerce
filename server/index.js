@@ -32,6 +32,7 @@ app.use("/api/product", ProductRoutes);
 app.use("/api/category", ProductCategoryRoutes);
 app.use("/api/brand", BrandRoutes);
 app.use("/api/Coupon", CouponRoutes);
+app.use("/api/stripe", stripe);
 
 app.use(Handlers.notfound);
 app.use(Handlers.errorHandler);
