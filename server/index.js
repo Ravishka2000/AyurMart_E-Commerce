@@ -10,7 +10,7 @@ import BrandRoutes from "./routes/BrandRotes.js";
 import CouponRoutes from "./routes/CouponRoutes.js";
 import Handlers from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
-
+import stripe from "./routes/Stripe.js";
 
 dotenv.config();
 
@@ -32,6 +32,7 @@ app.use("/api/product", ProductRoutes);
 app.use("/api/category", ProductCategoryRoutes);
 app.use("/api/brand", BrandRoutes);
 app.use("/api/Coupon", CouponRoutes);
+app.use("/api/stripe", stripe);
 
 app.use(Handlers.notfound);
 app.use(Handlers.errorHandler);
