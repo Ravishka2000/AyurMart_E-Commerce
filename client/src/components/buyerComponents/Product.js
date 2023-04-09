@@ -4,8 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Grid, Card, CardMedia, CardContent, Typography, Rating, Button, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Product = () => {
+    const { user } = useAuthContext();
     const productId = useParams().id;
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -22,17 +24,16 @@ const Product = () => {
     }, [productId]);
 
     const handleAddToCart = async () => {
-        const cartItem = {
-            id: product.id,
-            quantity: quantity
-        };
         try {
-            const response = await axios.post('http://localhost:7002/api/user/cart', { cart: [{ _id: cartItem.id, count: cartItem.quantity }] });
+            const response = await axios.post(
+              'http://localhost:7002/api/user/cart',
+              { cart: [{ _id: product._id, count: quantity }] },
+              { headers: { Authorization: `Bearer ${user.token}` } }
+            );
             console.log(response.data);
-        } catch (error) {
-            console.log(error.message);
-        }
-
+          } catch (error) {
+            console.error(error);
+          }
     }
 
 
