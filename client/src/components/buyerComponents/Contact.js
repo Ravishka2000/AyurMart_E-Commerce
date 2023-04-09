@@ -61,7 +61,7 @@ const ContactButton = styled(Button)({
 });
 
 const ContactBanner = styled(Box)({
-  color: '#000000',
+  color: '#262A56',
   padding: '10px',
   width: '100%',
   textAlign: 'center',
@@ -69,13 +69,6 @@ const ContactBanner = styled(Box)({
   backgroundImage: 'url(https://img.freepik.com/free-vector/medicine-concept-illustration_114360-1644.jpg?w=740&t=st=1681059580~exp=1681060180~hmac=99b33a6a74a9d98999e82769586bb400d51a64504ecbf3cd6767174497c00184)',
 });
 
-const ContactInfo = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  marginBottom: '20px',
-});
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -122,7 +115,7 @@ const Contact = () => {
         {<br/>}{<br/>}Contact Us
         </Typography>
         <Typography variant="subtitle1">
-         {<br/>}We would love to hear from you. Contact us by email, phone or visit our store.
+        {<br/>}{<br/>}We would love to hear from you. Contact us by email, phone or visit our store.
         </Typography>
            
           <Typography variant="subtitle1" fontWeight="bold">
