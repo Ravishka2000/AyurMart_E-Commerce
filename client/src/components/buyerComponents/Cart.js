@@ -54,17 +54,33 @@ const CartPage = () => {
                 {},
                 config
             );
-            console.log(cart);
-            setCart((prevCart) => ({
-                ...prevCart,
-                products: prevCart.products.filter((item) => item.product._id !== productId),
-              }));
+            if (response) {
+                const updatedCart = response.data.updatedCart;
+    
+                // Calculate the new cart total
+                const newCartTotal = calculateCartTotal(updatedCart.products);
+    
+                // Update the cartTotal field in the state with the new total
+                setCart((prevCart) => ({
+                    ...prevCart,
+                    cartTotal: newCartTotal,
+                    products: prevCart.products.filter(
+                        (item) => item.product._id !== productId
+                    ),
+                }));
+            }
         } catch (error) {
             console.log(error.message);
         }
     };
-    
-    
+
+    const calculateCartTotal = (products) => {
+        let cartTotal = 0;
+        for (let i = 0; i < products.length; i++) {
+            cartTotal += products[i].price * products[i].count;
+        }
+        return cartTotal;
+    };    
 
     return (
         <Container maxWidth="md" sx={{ mt: 5 }}>

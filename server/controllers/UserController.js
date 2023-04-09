@@ -407,10 +407,16 @@ const removeFromCart = asyncHandler(async (req, res) => {
             { orderby: _id },
             { $pull: { products: { product: productId } } },
             { new: true }
-          )
-          
+        )
+
+        const newCartTotal = calculateCartTotal(updatedCart.products);
+
+        // Update the cartTotal field with the new cart total
+        updatedCart.cartTotal = newCartTotal;
+        await updatedCart.save();
+
         res.json({ message: "Product removed from cart", updatedCart })
-        
+
     } catch (error) {
         throw new Error(error);
     }
