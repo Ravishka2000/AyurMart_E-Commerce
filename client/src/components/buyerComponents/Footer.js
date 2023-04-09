@@ -3,7 +3,7 @@ import { Container, Grid, Typography, Button, Link, FormControl, InputLabel, Out
 
 function Footer() {
     return (
-        <Box style={{ backgroundColor: '#eee', paddingX: '24px', marginTop: '50px' }}>
+        <Box width="100%" style={{ backgroundColor: '#eee', paddingX: '24px', marginTop: '50px', bottom:'0' }}>
             <Container maxWidth="xl">
                 <Grid container spacing={5}>
                     <Grid item xs={12} md={4}>

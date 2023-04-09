@@ -36,7 +36,6 @@ const Product = () => {
           }
     }
 
-
     const handleImageClick = (url) => {
         setSelectedImage(url);
     };
@@ -50,7 +49,6 @@ const Product = () => {
             setQuantity(quantity - 1);
         }
     };
-
 
     return (
         <Grid container sx={{ marginTop: '100px' }}>
