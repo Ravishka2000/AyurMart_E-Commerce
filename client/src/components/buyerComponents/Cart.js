@@ -84,7 +84,25 @@ const CartPage = () => {
         })
             .then((response) => {
                 console.log(response.data);
-                window.location.reload();
+                window.location.reload(true);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const handleRemoveAll = async () => {
+        const token = user.token;
+
+        const value = await axios.delete('http://localhost:7002/api/user/empty-cart', {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then((response) => {
+                console.log(response.data);
+                setCart(null);
             })
             .catch((error) => {
                 console.error(error);
@@ -102,7 +120,7 @@ const CartPage = () => {
                     <CardContent style={{ textAlign: 'center' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="h5" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Shopping Cart</Typography>
-                            <Button sx={{ textAlign: 'right' }}>Remove All</Button>
+                            <Button sx={{ textAlign: 'right' }} onClick={handleRemoveAll}>Remove All</Button>
                         </Box>
                         {cart ? (
                             <TableContainer>
