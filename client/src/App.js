@@ -1,12 +1,17 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
 import Header from "./components/buyerComponents/Header";
 import Home from "./components/buyerComponents/Home";
 import Footer from "./components/buyerComponents/Footer";
 import Product from "./components/buyerComponents/Product";
 import Cart from "./components/buyerComponents/Cart";
+import {BrowserRouter, Routes,Route,Navigate} from 'react-router-dom';
+import { useAuthContext } from './hooks/useAuthContext';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 function App() {
+  const { user } = useAuthContext()
     return (
         <React.Fragment>
             <Header>
@@ -18,6 +23,9 @@ function App() {
                     <Route path="/" element={<Home />} exact></Route>
                     <Route path="/product/:id" element={<Product />} exact></Route>
                     <Route path="/cart" element={<Cart />} exact></Route>
+                    <Route path="/" element={user ? <Home /> : <Navigate to="/login"></Navigate>}/>
+                    <Route path="/signup" element={!user ? <Signup /> :<Navigate to="/"></Navigate>}/>
+                    <Route path="/login" element={!user ? <Login /> :<Navigate to="/"></Navigate>}/>
                 </Routes>
             </main>
 
@@ -28,5 +36,3 @@ function App() {
         </React.Fragment>
     );
 }
-
-export default App;
