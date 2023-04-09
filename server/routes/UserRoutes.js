@@ -22,6 +22,7 @@ router.get('/wishlist', AuthMiddlewares.authMiddleware, UserControllers.getWishl
 router.get('/cart', AuthMiddlewares.authMiddleware, UserControllers.getUserCart);
 router.get('/:id', AuthMiddlewares.authMiddleware, AuthMiddlewares.isAdmin, UserControllers.getUser);
 router.delete('/empty-cart', AuthMiddlewares.authMiddleware, UserControllers.emptyCart);
+router.put('/cart/:productId', AuthMiddlewares.authMiddleware, UserControllers.removeFromCart);
 router.delete('/:id', UserControllers.deleteUser);
 router.put('/update-user', AuthMiddlewares.authMiddleware, UserControllers.updateUser);
 router.put('/save-address', AuthMiddlewares.authMiddleware, UserControllers.saveAddress);
