@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Grid, Card, CardMedia, CardContent, Typography, Rating, Button, IconButton, FormControl, FormLabel, TextField, Box } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Rating, Button, IconButton, FormControl, FormLabel, TextField, Box, Container, Avatar, Tooltip, Zoom, Snackbar, Alert, Slide } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+
 
 const Product = () => {
     const { user } = useAuthContext();
@@ -14,6 +16,9 @@ const Product = () => {
     const [quantity, setQuantity] = useState(1);
     const [star, setStar] = useState(0);
     const [comment, setComment] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const disclaimer = "The product reviews reflect the views and opinions of the contributors and not those of AYURMART. AYURMART is not responsible for any inaccuracies, errors, or omissions in the reviews, and does not endorse any of the views expressed by the contributors."
 
     useEffect(() => {
         fetch(`http://localhost:7002/api/product/${productId}`)
@@ -72,7 +77,10 @@ const Product = () => {
                 }
             );
             console.log(res.data);
-            window.location.reload();
+            setOpen(true);
+            setStar(0);
+            setComment("");
+
         } catch (error) {
             console.log(error);
             // Show error message
@@ -109,7 +117,7 @@ const Product = () => {
                     <Grid item xs={12} md={6}>
                         <Card>
                             <CardContent sx={{ flex: 1 }}>
-                                <Typography variant="h6" gutterBottom style={{ fontWeight: 800 }}>
+                                <Typography variant='h4' fontWeight={800}>
                                     {product.title}
                                 </Typography>
                                 <Grid container alignItems="center" mt={2}>
@@ -131,12 +139,12 @@ const Product = () => {
                                     <Grid spacing={2} alignItems="center">
                                         <Typography variant='h4' textAlign="center" fontWeight={800}>Leave a Review</Typography>
                                         <Grid container justifyContent="center">
-                                        <Box sx={{ alignItems: 'center'}} marginTop={5}>
-                                            
+                                            <Box sx={{ alignItems: 'center' }} marginTop={5}>
+
                                                 <Typography textAlign="center">Click the Stars to rate Us</Typography>
-                                                <Rating name="rating" value={star} sx={{fontSize: "60px", marginY: "20px"}} onChange={(event, newValue) => { setStar(newValue) }}/>
-                                            
-                                        </Box>
+                                                <Rating name="rating" value={star} sx={{ fontSize: "60px", marginY: "20px" }} onChange={(event, newValue) => { setStar(newValue) }} />
+
+                                            </Box>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormControl fullWidth>
@@ -162,15 +170,12 @@ const Product = () => {
 
                             </CardContent>
                         </Card>
-
-
-
-
                     </Grid>
 
                     <Grid item xs={12} md={3} paddingX={2}>
-                        <Card>
-                            <Grid container alignItems="center" px={2} py={4}>
+                        <Card sx={{ px: "20px", py: "20px" }}>
+                            <Typography variant='h5' fontWeight={800} mb={4}>Product Price</Typography>
+                            <Grid container alignItems="center" >
 
                                 <Grid item xs={6}>
                                     <Typography>Unit Price</Typography>
@@ -230,10 +235,53 @@ const Product = () => {
                         </Card>
                     </Grid>
 
+                    <Grid xs={12} mt={10}>
+                        <Container>
+                            <Typography variant='h4' fontWeight={700} mb={3}>Customer Reviews</Typography>
+                            {product.ratings.map((rate) => (
+                                <>
+                                    {rate.postedby && (
+                                        <Card variant='outlined' sx={{ my: "40px", p: "10px" }}>
+                                            <CardContent>
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <IconButton sx={{ p: 0, marginRight: "10px" }}>
+                                                        <Avatar alt={rate.postedby.firstName} />
+                                                    </IconButton>
+                                                    <Typography>{rate.postedby.firstName} {rate.postedby.lastName}</Typography>
+                                                </Box>
+                                                <Rating value={rate.star} readOnly sx={{ my: "15px" }}></Rating>
+
+                                                <Typography>{rate.comment}</Typography>
+
+                                                <Box sx={{ display: 'flex', alignItems: 'center', mt: "20px" }}>
+                                                    <Typography color="orange">Disclaimer:</Typography>
+                                                    <Typography color="gray" ml={1}>Not medical or professional advice.</Typography>
+                                                    <Tooltip TransitionComponent={Zoom} title={disclaimer}>
+                                                        <InfoOutlinedIcon fontSize='small' />
+                                                    </Tooltip>
+                                                </Box>
+
+                                            </CardContent>
+                                        </Card>
+                                    )}
+                                </>
+                            ))}
+
+                        </Container>
+                    </Grid>
+
                 </>
             )}
 
-            
+
+            <Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={5000} TransitionComponent={Slide} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert severity="success" variant='filled' sx={{ width: '200px' }}>
+                    Success
+                </Alert>
+            </Snackbar>
+
+
+
         </Grid>
     );
 };
