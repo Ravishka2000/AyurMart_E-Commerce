@@ -38,6 +38,8 @@ const Product = () => {
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
             console.log(response.data);
+            setOpen(true)
+            setQuantity(1)
         } catch (error) {
             console.error(error);
         }
@@ -60,11 +62,6 @@ const Product = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = user.token;
-        console.log(productId);
-        console.log(star);
-        console.log(comment);
-        console.log(token);
-        console.log(user.email);
         try {
             const res = await axios.put(
                 `http://localhost:7002/api/product/rating`,
@@ -83,7 +80,6 @@ const Product = () => {
 
         } catch (error) {
             console.log(error);
-            // Show error message
         }
     };
 
