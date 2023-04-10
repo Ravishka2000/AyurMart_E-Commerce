@@ -5,6 +5,7 @@ import Footer from "./components/buyerComponents/Footer";
 import Product from "./components/buyerComponents/Product";
 import Cart from "./components/buyerComponents/Cart";
 import Contact from "./components/buyerComponents/Contact";
+import About from "./components/buyerComponents/About";
 import { Routes,Route,Navigate} from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
 import Signup from './pages/Signup';
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/signup" element={!user ? <Signup /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/login" element={!user ? <Login /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/contact" element={<Contact />} exact></Route>
+                    <Route path="/about" element={<About />} exact></Route>
                 </Routes>
             </main>
 
