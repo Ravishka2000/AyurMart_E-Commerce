@@ -23,7 +23,7 @@ const createProduct = asyncHandler (async (req, res) => {
 const getaProduct = asyncHandler (async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findById(id).populate("ratings.postedby");
         res.json(product);
     } catch (error) {
         throw new Error(error);
