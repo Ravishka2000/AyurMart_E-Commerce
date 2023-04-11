@@ -14,6 +14,8 @@ import HomeLogin from './pages/Home';
 import ForgetPassword from "./pages/ForgetPassowrd";
 import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./components/buyerComponents/UserProfile";
+import CheckoutSuccess from "./components/buyerComponents/CheckoutSuccess";
+import NotFound from "./components/buyerComponents/NotFound";
 
 function App() {
   const { user } = useAuthContext()
@@ -36,6 +38,8 @@ function App() {
                     <Route path="/user-profile" element={<UserProfile />} exact></Route>
                     <Route path="/contact" element={<Contact />} exact></Route>
                     <Route path="/about" element={<About />} exact></Route>
+                    <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
+                    <Route path="*" element={<NotFound/>} exact></Route>
                 </Routes>
             </main>
 
