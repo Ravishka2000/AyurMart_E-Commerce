@@ -29,9 +29,35 @@ const createUser = asyncHandler(async (req, res) => {
             mobile,
             password
         });
-        res.json(newUser);
     } else {
         throw new Error("User already exists");
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+        const refreshToken = generateRefreshToken(user?._id);
+        const { _id, firstName, email, mobile } = user;
+        const updateUser = await User.findOneAndUpdate(
+            user._id,
+            {
+                refreshToken: refreshToken
+            },
+            {
+                new: true
+            }
+        )
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 1 * 1000,
+        })
+        res.status(200).json({
+            _id,
+            firstName,
+            email,
+            mobile,
+            token: generateToken(user._id),
+        })
     }
 });
 

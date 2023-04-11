@@ -27,9 +27,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} exact></Route>
                     <Route path="/product/:id" element={<Product />} exact></Route>
-                    <Route path="/cart" element={<Cart />} exact></Route>
+                    <Route path="/cart" element={user ? <Cart /> : <Navigate to="/login"></Navigate>} exact></Route>
                     <Route path="/" element={user ? <HomeLogin /> : <Navigate to="/login"></Navigate>}/>
-                    <Route path="/signup" element={!user ? <Signup /> :<Navigate to="/"></Navigate>}/>
+                    <Route path="/signup" element={!user ? <Signup /> :<Navigate to="/login"></Navigate>}/>
                     <Route path="/login" element={!user ? <Login /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/reset-password" element={!user ? <ForgetPassword /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/api/user/reset-password/:token" element={<ResetPassword />} exact></Route>

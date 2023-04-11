@@ -84,7 +84,9 @@ const CartPage = () => {
         })
             .then((response) => {
                 console.log(response.data);
-                window.location.reload(true);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
             })
             .catch((error) => {
                 console.error(error);
@@ -185,7 +187,7 @@ const CartPage = () => {
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Net Total</Typography>
-                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.totalAfterDiscount ? cart.totalAfterDiscount : 0}.00</Typography>
+                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.totalAfterDiscount : cart && cart.cartTotal ? cart.cartTotal : 0}.00</Typography>
                         </Box>
                         <Button fullWidth variant="contained" color="success">Proceed to Checkout</Button>
                     </CardContent>

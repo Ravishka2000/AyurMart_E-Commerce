@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import { Grid, Card, CardMedia, CardContent, Typography, Rating, Button, IconButton, FormControl, FormLabel, TextField, Box, Container, Avatar, Tooltip, Zoom, Snackbar, Alert, Slide } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -16,7 +16,8 @@ const Product = () => {
     const [quantity, setQuantity] = useState(1);
     const [star, setStar] = useState(0);
     const [comment, setComment] = useState('');
-    const [open, setOpen] = useState(false);
+    const [open, setCartOpen] = useState(false);
+    const [rateOpen, setRateOpen] = useState(false);
 
     const disclaimer = "The product reviews reflect the views and opinions of the contributors and not those of AYURMART. AYURMART is not responsible for any inaccuracies, errors, or omissions in the reviews, and does not endorse any of the views expressed by the contributors."
 
@@ -31,17 +32,21 @@ const Product = () => {
     }, [productId]);
 
     const handleAddToCart = async () => {
-        try {
-            const response = await axios.post(
-                'http://localhost:7002/api/user/cart',
-                { cart: [{ _id: product._id, count: quantity }] },
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
-            console.log(response.data);
-            setOpen(true)
-            setQuantity(1)
-        } catch (error) {
-            console.error(error);
+        if (user) {
+            try {
+                const response = await axios.post(
+                    'http://localhost:7002/api/user/cart',
+                    { cart: [{ _id: product._id, count: quantity }] },
+                    { headers: { Authorization: `Bearer ${user.token}` } }
+                );
+                console.log(response.data);
+                setCartOpen(true)
+                setQuantity(1)
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            window.location.href = '/login';
         }
     }
 
@@ -74,9 +79,14 @@ const Product = () => {
                 }
             );
             console.log(res.data);
-            setOpen(true);
+            setRateOpen(true);
             setStar(0);
             setComment("");
+            // reload the current page after a delay of 3 seconds
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+
 
         } catch (error) {
             console.log(error);
@@ -270,13 +280,19 @@ const Product = () => {
             )}
 
 
-            <Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={5000} TransitionComponent={Slide} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Alert severity="success" variant='filled' sx={{ width: '200px' }}>
-                    Success
+            <Snackbar open={open} onClose={() => setCartOpen(false)} autoHideDuration={5000} TransitionComponent={Slide} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert severity="success" variant='filled' sx={{ width: '300px' }} action={
+                    <Button LinkComponent={Link} to="/cart" sx={{ textDecoration: "none", color: "white" }}>View</Button>
+                }>
+                    Added to the Cart!
                 </Alert>
             </Snackbar>
 
-
+            <Snackbar open={rateOpen} onClose={() => setRateOpen(false)} autoHideDuration={5000} TransitionComponent={Slide} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert severity="success" variant='filled' sx={{ width: '300px' }}>
+                    You Have Successfully Rated!
+                </Alert>
+            </Snackbar>
 
         </Grid>
     );
