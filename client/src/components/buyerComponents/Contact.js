@@ -8,6 +8,7 @@ import SendIcon from '@mui/icons-material/Send';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import emailjs from 'emailjs-com';
 
 const ContactWrapper = styled(Box)({
@@ -66,7 +67,7 @@ const ContactBanner = styled(Box)({
   width: '100%',
   textAlign: 'center',
   marginTop: '75px',
-  backgroundImage: 'url(https://img.freepik.com/free-vector/medicine-concept-illustration_114360-1644.jpg?w=740&t=st=1681059580~exp=1681060180~hmac=99b33a6a74a9d98999e82769586bb400d51a64504ecbf3cd6767174497c00184)',
+  backgroundImage: 'url(https://img.freepik.com/free-photo/abstract-blur-defocused-pharmacy-drug-store_1203-9459.jpg?w=996&t=st=1681135634~exp=1681136234~hmac=a8076cfce67b40920b2378b97111f1f847be29fb52a1ea656856293ac511f24c)',
 });
 
 
@@ -110,28 +111,43 @@ const Contact = () => {
   return (
     <ContactWrapper>
       
-      <ContactBanner>
-        <Typography variant="h4" fontWeight="bold">
-        {<br/>}{<br/>}Contact Us
+      <ContactBanner >
+        <Typography variant="h4" fontWeight="bold" color={"#146C94"} >
+        {<br/>}{<br/>}{<br/>}Contact Us
         </Typography>
-        <Typography variant="subtitle1">
-        {<br/>}{<br/>}We would love to hear from you. Contact us by email, phone or visit our store.
-        </Typography>
-           
+        <Typography variant="h6" fontWeight="bold" color={"#4C4B16"}>
+        {<br/>}We would love to hear from you. Contact us by email, phone or visit our store.
+        </Typography> <br/><br/>
+        <section style={{ display: "flex", alignItems: "center", color:"#19376D", justifyContent: "center"  }}>
+           <LocationOnIcon />
           <Typography variant="subtitle1" fontWeight="bold">
-          {<br/>}{<LocationOnIcon />}123 Main Street, Anytown USA  
+           123 Main Street, Anytown USA  
           </Typography>
+          </section>
+          <section style={{ display: "flex", alignItems: "center", color:"#19376D", justifyContent: "center"  }}>
+          <LocalPhoneIcon />
           <Typography variant="subtitle1" fontWeight="bold">
-          {<LocalPhoneIcon />}(123) 456-7890
+           (123) 456-7890
           </Typography>
+          </section>
+          <section style={{ display: "flex", alignItems: "center", color:"#19376D", justifyContent: "center" }}>
+          <EmailIcon />
           <Typography variant="subtitle1" fontWeight="bold">
-           {<EmailIcon />}example@example.com
+            example@example.com
           </Typography>
-        
+          </section>
+          
       </ContactBanner>
 
       <ContactFormContainer>
       <ContactForm onSubmit={handleSubmit}>
+      <section style={{ display: "flex", alignItems: "center", color:"#576CBC" }}>
+        <Typography fontWeight="bold">
+          Get In Touch
+        </Typography>
+        <SentimentSatisfiedAltIcon />
+        </section>
+          <br/>
         <ContactInput
           label="Name"
           variant="outlined"
