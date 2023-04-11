@@ -136,7 +136,7 @@ const Header = () => {
                                                 <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/user-profile">Profile</Typography>
                                             </MenuItem>
                                             <MenuItem onClick={handleLogoutClick}>
-                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/">Logout</Typography>
+                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/login">Logout</Typography>
                                             </MenuItem>
 
                                         </Menu>
