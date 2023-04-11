@@ -16,6 +16,11 @@ const createUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, mobile, password } = req.body;
     const findUser = await User.findOne({ email });
 
+    if (!email || !password || !firstName || !lastName || !mobile) {
+        res.status(400);
+        throw new Error("Please fill out all fields");
+    }
+
     if (!findUser) {
         const newUser = await User.create({
             firstName,
@@ -278,13 +283,16 @@ const updatePassword = asyncHandler(async (req, res) => {
 const forgotPasswordToken = asyncHandler(async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
+    if(!email){
+        throw new Error("Please enter the email");
+    }
     if (!user) {
-        throw new Error("User not found");
+        throw new Error("Invalid email");
     }
     try {
         const token = await user.createPasswordResetToken();
         await user.save();
-        const resetURL = `Hi, Please follow this link to reset your password. This link is valid till 10 minutes from now. <a href='http://localhost:7002/api/user/reset-password/${token}'>Click Here</a>`;
+        const resetURL = `Hi, Please follow this link to reset your password. This link is valid till 10 minutes from now. <a href='http://localhost:3000/api/user/reset-password/${token}'>Click Here</a>`;
         const data = {
             to: email,
             subject: "Forgot Password Link",

@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from "@mui/material/Button";
-import { green,apple } from "@mui/material/colors";
+import Alert from "@mui/material/Alert"
 
 const Signup = () =>{
     const [email,setEmail] = useState('');
@@ -45,13 +45,14 @@ const Signup = () =>{
             autoComplete="off"
             onSubmit={handleSubmit}
         >
-         <Grid 
+        <Grid 
             container
             spacing={0}
             direction="column"
             alignItems="center"
             justifyContent="center"
             justify="space-around" 
+            placeItems='center'
             style={{ minHeight: '100vh'}}>
             <div>
             <Grid item xs={200}
@@ -60,7 +61,7 @@ const Signup = () =>{
                 <Box 
                 textAlign="center">
                 <h1>
-                    Welcome ! 
+                Create an account
                 </h1>
                 </Box>
             </Grid>
@@ -139,16 +140,20 @@ const Signup = () =>{
                 </IconButton>
                 </InputAdornment>
             }
-            label="Password"
-          />
-          
-        </FormControl>
-        </Grid>
+            label="Password"/>
+            </FormControl>
+            </Grid>
+
+            </div>
+
+            <Grid item xs={20}
+            style={{ padding:"10"}}>
             <Button variant="contained" disabled={isLoading} type="submit"
-        sx={{ color: 'white', backgroundColor: 'green', borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
+            sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
             >Signup</Button>
-            {error && <div className="error">{error}</div>}
-        </div>
+            </Grid>
+            <p className="text" style={{color: "#063970"}}>Already have an account? <span><Link to="/login" style={{fontWeight:"bold",color: "#063970"}}>Sign in</Link></span></p>
+            {error && <Alert variant="filled" severity="error" style={{fontWeight:"bold",color: "#063970"}}>{error}</Alert>}
     </Grid>
     </Box>
     </div>

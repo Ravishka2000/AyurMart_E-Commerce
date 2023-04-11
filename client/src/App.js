@@ -10,6 +10,9 @@ import { useAuthContext } from './hooks/useAuthContext';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import HomeLogin from './pages/Home';
+import ForgetPassword from "./pages/ForgetPassowrd";
+import ResetPassword from "./pages/ResetPassword";
+import UserProfile from "./components/buyerComponents/UserProfile";
 
 function App() {
   const { user } = useAuthContext()
@@ -27,6 +30,9 @@ function App() {
                     <Route path="/" element={user ? <HomeLogin /> : <Navigate to="/login"></Navigate>}/>
                     <Route path="/signup" element={!user ? <Signup /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/login" element={!user ? <Login /> :<Navigate to="/"></Navigate>}/>
+                    <Route path="/reset-password" element={!user ? <ForgetPassword /> :<Navigate to="/"></Navigate>}/>
+                    <Route path="/api/user/reset-password/:token" element={<ResetPassword />} exact></Route>
+                    <Route path="/user-profile" element={<UserProfile />} exact></Route>
                     <Route path="/contact" element={<Contact />} exact></Route>
                 </Routes>
             </main>
