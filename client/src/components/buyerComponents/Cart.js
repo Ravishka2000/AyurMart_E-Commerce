@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Box, Button, Card, CardContent, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
+import PayButton from "./PayButton";
 
 const CartPage = () => {
     const { user } = useAuthContext();
@@ -189,10 +190,11 @@ const CartPage = () => {
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Net Total</Typography>
                             <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.totalAfterDiscount : cart && cart.cartTotal ? cart.cartTotal : 0}.00</Typography>
                         </Box>
+                        
                         <Button fullWidth variant="contained" color="success">Proceed to Checkout</Button>
                     </CardContent>
                     <CardContent>
-
+                        
                     </CardContent>
                 </Card>
             </Grid>
