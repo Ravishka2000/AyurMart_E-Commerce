@@ -40,7 +40,7 @@ const UserDashBoard=()=>{
     return(
         <div>
         {isEditing ? (
-        <EditUser onEditToggle={handleEditToggle} /> // Render edit component
+        <EditUser onEditToggle={handleEditToggle} /> 
       ) : (
         <UserInfo />
       )}
@@ -52,7 +52,7 @@ const UserDashBoard=()=>{
       )}
 
       {isaddressEditing ? (
-        <EditAddress onEditToggleAddress={handleAddressToggle} /> // Render edit component
+        <EditAddress onEditToggleAddress={handleAddressToggle} /> 
       ) : (
         <Address />
       )}

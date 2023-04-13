@@ -21,15 +21,13 @@ const EditInfo=({ onEditToggle })=>{
     
 
     useEffect(()=>{
-
         const fetchUser = async() =>{
             const response = await fetch(`/api/user/${user._id}`,
                 {headers:{
                     'Authorization' :`Bearer ${user.token}`
             }})
-
             const json = await response.json()
-            
+
             if(response.ok){
                 setUser(json)
                 setEmail(json.email)
