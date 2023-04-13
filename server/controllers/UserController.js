@@ -544,7 +544,7 @@ const createOrder = asyncHandler(async (req, res) => {
 const getOrders = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     try {
-        const userOrders = await Order.findOne({ orderby: _id }).populate("products.product").exec();
+        const userOrders = await Order.find({ orderby: _id }).populate("products.product").exec();
         res.json(userOrders);
     } catch (error) {
         throw new Error(error);
