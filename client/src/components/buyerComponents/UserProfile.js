@@ -36,15 +36,6 @@ const UserProfile = () => {
     color: theme.palette.text.secondary,
   }));
 
-
-  const Bold = styled(Typography)(({theme})=>({
-    textAlign: 'center',
-    fontWeight:"bold",
-    color:"black"
-    
-  }))
-
-
   useEffect(()=>{
 
     const fetchUser = async()=>{
@@ -147,7 +138,7 @@ const UserProfile = () => {
           </Box>
           </Item>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6} md={8}>
           <Item>
           {activeLink === 'link1' && <UserDashBoard />} 
           {activeLink === 'link2' && <WishList />}

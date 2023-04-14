@@ -569,6 +569,15 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     }
 });
 
+const allOrders = asyncHandler(async (req, res) => {
+    try {
+        const getOrders = await Order.find();
+        res.json(getOrders);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
 export default {
     createUser,
     loginUser,
@@ -594,4 +603,5 @@ export default {
     getOrders,
     updateOrderStatus,
     removeFromCart,
+    allOrders
 }

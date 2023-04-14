@@ -4,10 +4,10 @@ import CouponController from "../controllers/CouponController.js";
 
 const router = express.Router();
 
-router.post('/', AuthMiddlewares.authMiddleware, AuthMiddlewares.isAdmin, CouponController.createCoupon);
-router.get('/', AuthMiddlewares.authMiddleware, CouponController.getAllCoupons);
+router.post('/', CouponController.createCoupon);
+router.get('/',  CouponController.getAllCoupons);
 router.get('/:id', AuthMiddlewares.authMiddleware, CouponController.getACoupon);
 router.put('/:id', AuthMiddlewares.authMiddleware, AuthMiddlewares.isAdmin, CouponController.updateCoupon);
-router.delete('/:id', AuthMiddlewares.authMiddleware, AuthMiddlewares.isAdmin, CouponController.deleteCoupon);
+router.delete('/:id', CouponController.deleteCoupon);
 
 export default router;

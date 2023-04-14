@@ -16,6 +16,7 @@ import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./components/buyerComponents/UserProfile";
 import CheckoutSuccess from "./components/buyerComponents/CheckoutSuccess";
 import NotFound from "./components/buyerComponents/NotFound";
+import AdminDashboard from "./components/adminComponents/AdminDashboard"
 
 function App() {
   const { user } = useAuthContext()
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/about" element={<About />} exact></Route>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
+                    <Route path="/admin-dashboard" element={<AdminDashboard/>} exact></Route>
                 </Routes>
             </main>
 
