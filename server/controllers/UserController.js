@@ -13,7 +13,7 @@ import crypto from "crypto";
 import uniqid from "uniqid";
 
 const createUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, mobile, password } = req.body;
+    const { firstName, lastName, email, mobile, password,role } = req.body;
     const findUser = await User.findOne({ email });
 
     if (!email || !password || !firstName || !lastName || !mobile) {
@@ -27,7 +27,8 @@ const createUser = asyncHandler(async (req, res) => {
             lastName,
             email,
             mobile,
-            password
+            password,
+            role
         });
     } else {
         throw new Error("User already exists");
@@ -37,7 +38,7 @@ const createUser = asyncHandler(async (req, res) => {
 
     if (user) {
         const refreshToken = generateRefreshToken(user?._id);
-        const { _id, firstName, email, mobile } = user;
+        const { _id, firstName, email, mobile,role } = user;
         const updateUser = await User.findOneAndUpdate(
             user._id,
             {
@@ -57,6 +58,7 @@ const createUser = asyncHandler(async (req, res) => {
             email,
             mobile,
             token: generateToken(user._id),
+            role
         })
     }
 });
@@ -79,7 +81,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (user && passwordIsCorrect) {
         const refreshToken = generateRefreshToken(user?._id);
-        const { _id, firstName, email, mobile } = user;
+        const { _id, firstName, email, mobile,role } = user;
         const updateUser = await User.findOneAndUpdate(
             user._id,
             {
@@ -99,6 +101,7 @@ const loginUser = asyncHandler(async (req, res) => {
             email,
             mobile,
             token: generateToken(user._id),
+            role
         })
     } else {
         res.status(400);
@@ -128,7 +131,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
     if (admin && passwordIsCorrect) {
         const refreshToken = generateRefreshToken(admin?._id);
-        const { _id, firstName, email, mobile } = admin;
+        const { _id, firstName, email, mobile, role} = admin;
         const updateUser = await User.findOneAndUpdate(
             admin._id,
             {
@@ -148,6 +151,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
             email,
             mobile,
             token: generateToken(admin._id),
+            role
         })
     } else {
         res.status(400);
@@ -577,6 +581,7 @@ const allOrders = asyncHandler(async (req, res) => {
         throw new Error(error);
     }
 });
+
 
 export default {
     createUser,

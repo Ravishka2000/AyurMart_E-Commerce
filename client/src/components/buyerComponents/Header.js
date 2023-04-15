@@ -133,10 +133,10 @@ const Header = () => {
                                         >
 
                                             <MenuItem onClick={handleCloseUserMenu}>
-                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/user-profile">Profile</Typography>
+                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to={user.role==="admin"?"/admin-dashboard":"/user-profile"}>{user.role==="admin"?"Admin Dashboard":"Profile"}</Typography>
                                             </MenuItem>
                                             <MenuItem onClick={handleLogoutClick}>
-                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/login">Logout</Typography>
+                                                <Typography textAlign="center" sx={{ textDecoration: "none", color: "black" }} component={Link} to="/">Logout</Typography>
                                             </MenuItem>
 
                                         </Menu>

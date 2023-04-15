@@ -27,8 +27,8 @@ router.put('/cart/:productId', AuthMiddlewares.authMiddleware, UserControllers.r
 router.delete('/:id', UserControllers.deleteUser);
 router.put('/update-user', AuthMiddlewares.authMiddleware, UserControllers.updateUser);
 router.put('/save-address', AuthMiddlewares.authMiddleware, UserControllers.saveAddress);
-router.put('/block-user/:id', AuthMiddlewares.authMiddleware,UserControllers.blockUser);
-router.put('/unblock-user/:id', AuthMiddlewares.authMiddleware,UserControllers.unBlockUser);
+router.put('/block-user/:id', UserControllers.blockUser);
+router.put('/unblock-user/:id', UserControllers.unBlockUser);
 
 
 export default router;
