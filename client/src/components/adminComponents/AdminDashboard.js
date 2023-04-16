@@ -142,7 +142,7 @@ const AdminDashboard=()=>{
                             },
                           }}
                       >
-                        <ListItemText primary="Charts" />
+                        <ListItemText primary="Statistic displays" />
                       </ListItemButton>
                     </List>
                   </Box>
