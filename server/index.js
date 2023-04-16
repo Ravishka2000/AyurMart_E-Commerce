@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import UserRoutes from "./routes/UserRoutes.js";
 import ProductRoutes from "./routes/ProductRoutes.js";
+import SellerRoutes from "./routes/SellerRoutes.js";
 import ProductCategoryRoutes from "./routes/ProductsCategoryRoutes.js";
 import BrandRoutes from "./routes/BrandRotes.js";
 import CouponRoutes from "./routes/CouponRoutes.js";
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 app.use("/api/user", UserRoutes);
 app.use("/api/product", ProductRoutes);
+app.use("/api/seller", SellerRoutes);
 app.use("/api/category", ProductCategoryRoutes);
 app.use("/api/brand", BrandRoutes);
 app.use("/api/Coupon", CouponRoutes);
