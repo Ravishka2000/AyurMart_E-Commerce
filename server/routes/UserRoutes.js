@@ -14,7 +14,7 @@ router.post('/login', UserControllers.loginUser);
 router.post('/admin-login', UserControllers.loginAdmin);
 router.post('/cart', AuthMiddlewares.authMiddleware, UserControllers.userCart);
 router.post('/cart/applycoupon', AuthMiddlewares.authMiddleware, UserControllers.applyCoupon);
-router.post('/cart/cash-order', AuthMiddlewares.authMiddleware, UserControllers.createOrder);
+router.post('/cart/order', AuthMiddlewares.authMiddleware, UserControllers.createOrder);
 router.get('/all-users', UserControllers.getAllUsers);
 router.get('/get-orders', AuthMiddlewares.authMiddleware, UserControllers.getOrders);
 router.get('/refresh', UserControllers.handleRefreshToken);
