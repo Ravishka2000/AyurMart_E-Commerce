@@ -57,5 +57,5 @@ const getAllProducts = asyncHandler (async (req, res) => {
 
 export default{
     getaProduct,
-    getAllProducts
+    getAllProducts,
 }

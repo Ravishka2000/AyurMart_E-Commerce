@@ -16,7 +16,9 @@ import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./components/buyerComponents/UserProfile";
 import CheckoutSuccess from "./components/buyerComponents/CheckoutSuccess";
 import NotFound from "./components/buyerComponents/NotFound";
-import AdminDashboard from "./components/adminComponents/AdminDashboard"
+import AdminDashboard from "./components/adminComponents/AdminDashboard";
+import SellerDashboard from "./components/sellerComponents/SellerDashboard";
+import AddProductForm from "./components/sellerComponents/AddProductForm";
 
 function App() {
   const { user } = useAuthContext()
@@ -42,6 +44,8 @@ function App() {
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
                     <Route path="/admin-dashboard" element={<AdminDashboard/>} exact></Route>
+                    <Route path="/seller-dashboard" element={<SellerDashboard/>} exact></Route>
+                    <Route path="/addProduct" element={<AddProductForm/>} exact></Route>
                 </Routes>
             </main>
 

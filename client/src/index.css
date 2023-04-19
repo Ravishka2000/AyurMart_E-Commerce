@@ -11,3 +11,102 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*Add Product Form*/
+label, input {
+  display: block;
+}
+input, textarea {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form button {
+  display: inline-block;
+  background-color: #063970;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 300px;
+}
+form button:hover {
+  background-color: #388e3c;
+}
+form button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+div.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+/*Seller dashboard side bar*/
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 150px;
+  background-color: #063970;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.sidebar h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px;
+  color: #fcfcfc;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.sidebar a:hover {
+  background-color: #02001062;
+  color: #ffffff;
+}
+
+.sidebar a:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.sidebar a.active {
+  background-color: #fff;
+  color: #063970;
+}
+
+
+
+
+
