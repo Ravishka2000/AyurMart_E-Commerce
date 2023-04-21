@@ -16,6 +16,8 @@ import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./components/buyerComponents/UserProfile";
 import CheckoutSuccess from "./components/buyerComponents/CheckoutSuccess";
 import NotFound from "./components/buyerComponents/NotFound";
+import SellerDashboard from "./components/sellerComponents/SellerDashboard";
+import AddProductForm from "./components/sellerComponents/AddProductForm";
 import AdminDashboard from "./components/adminComponents/AdminDashboard"
 import SellerSignup from "./pages/SellerRegister";
 
@@ -42,6 +44,8 @@ function App() {
                     <Route path="/about" element={<About />} exact></Route>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
+                    <Route path="/seller-dashboard" element={<SellerDashboard/>} exact></Route>
+                    <Route path="/addProduct" element={<AddProductForm/>} exact></Route>
                     <Route path="/admin-dashboard" element={user ? <AdminDashboard /> :<Navigate to="/login"></Navigate>} exact></Route>
                     <Route path="/sign-up/seller" element={<SellerSignup/>} exact></Route>
                 </Routes>
