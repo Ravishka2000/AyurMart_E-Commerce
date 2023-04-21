@@ -264,8 +264,8 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
     if (!user) {
         throw new Error("No Refresh Token present in db or not matched");
     }
-    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
-        if (err || user.id !== decoded.id) {
+    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, dePayPaled) => {
+        if (err || user.id !== dePayPaled.id) {
             throw new Error("There is something wrong with refresh token");
         }
         const accessToken = generateToken(user?._id);
@@ -502,12 +502,9 @@ const applyCoupon = asyncHandler(async (req, res) => {
 });
 
 const createOrder = asyncHandler(async (req, res) => {
-    const { COD, couponApplied } = req.body;
+    const { couponApplied } = req.body;
     const { _id } = req.user;
     try {
-        if (!COD) {
-            throw new Error("Create Cash order failed");
-        }
         const user = await User.findById(_id);
         let userCart = await Cart.findOne({ orderby: user._id });
         let finalAmount = 0;
@@ -521,14 +518,14 @@ const createOrder = asyncHandler(async (req, res) => {
             products: userCart.products,
             paymentIntent: {
                 id: uniqid(),
-                method: "COD",
+                method: "PayPal",
                 amount: finalAmount,
-                status: "Cash on Delivery",
+                status: "Pending",
                 created: Date.now(),
                 currency: "USD",
             },
             orderby: user._id,
-            orderStatus: "Cash on Delivery"
+            orderStatus: "Pending"
         }).save();
         let update = userCart.products.map((item) => {
             return {

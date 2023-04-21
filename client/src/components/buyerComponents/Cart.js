@@ -11,6 +11,9 @@ const CartPage = () => {
     const { user } = useAuthContext();
     const [cart, setCart] = useState(null);
     const [textFieldValue, setTextFieldValue] = useState('');
+    const [couponApplied, setCouponApplied] = useState(false);
+
+    const [isOrderComplete, setIsOrderComplete] = useState(false);
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -68,7 +71,7 @@ const CartPage = () => {
 
     const calculateCartTotal = (products) => {
         let cartTotal = 0;
-        for (let i = 0; i < products.length; i++) {
+        for (let i = 0;i < products.length;i++) {
             cartTotal += products[i].price * products[i].count;
         }
         return cartTotal;
@@ -86,6 +89,7 @@ const CartPage = () => {
         })
             .then((response) => {
                 console.log(response.data);
+                setCouponApplied(true)
                 setTimeout(function () {
                     window.location.reload();
                 }, 2000);
@@ -115,6 +119,39 @@ const CartPage = () => {
 
     const handleTextFieldChange = (event) => {
         setTextFieldValue(event.target.value);
+    };
+
+    const handleCreateOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: cart.cartTotal,
+                    },
+                },
+            ],
+        });
+    };
+
+    const handleCaptureOrder = async (data, actions) => {
+        const token = user.token;
+        const orderData = {
+            couponApplied: couponApplied
+        };
+
+        try {
+            const response = await axios.post('http://localhost:7002/api/user/cart/order', orderData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            const orderId = response.data._id;
+            setIsOrderComplete(true);
+            return actions.order.capture();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -193,37 +230,18 @@ const CartPage = () => {
                         </Box>
                         <h3 align="center" fullWidth variant="contained" color="success">Proceed Checkout with</h3>
 
-                        <PayPalScriptProvider 
-                        options={{
-                            "client-id": 
-                            "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP"
-                            }}>
-                            <PayPalButtons
-                                createOrder={(data, actions) => {
-                                    return actions.order.create({
-                                        purchase_units: [
-                                            {
-                                                amount: {
-                                                    value: cart.cartTotal,
-                                                },
-                                            },
-                                        ],
-                                    });
-                                }}
-                                onApprove={(data, actions) => {
-                                    return actions.order.capture().then(function (details) {
-                                    
-                                         alert(
-                                            "Transaction completed by " + details.payer.name.given_name
-                                         );
-                                    });
-                                }}
-                            />
+                        <PayPalScriptProvider
+                            options={{
+                                "client-id": "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP",
+                            }}
+                        >
+                            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleCaptureOrder} />
+                            {isOrderComplete && <p>Your order has been placed successfully!</p>}
                         </PayPalScriptProvider>
-                        
+
                     </CardContent>
                     <CardContent>
-                        
+
                     </CardContent>
                 </Card>
             </Grid>
