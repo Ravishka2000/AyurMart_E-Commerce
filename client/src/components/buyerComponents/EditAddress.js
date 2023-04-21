@@ -60,6 +60,10 @@ const EditAddress=({onEditToggleAddress})=>{
 
     }
 
+    const handleCancelClick = ()=>{
+        onEditToggleAddress()
+    }
+
     return(
         
 
@@ -106,7 +110,10 @@ const EditAddress=({onEditToggleAddress})=>{
                 </div>
                 <Button variant="contained" type="submit"
             sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
-            >Add Address</Button>
+            >Change Address</Button>
+             <Button variant="contained" onClick={handleCancelClick}
+        sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
+        >Back</Button>   
                 </Grid>
                 </Box>
                 </div>

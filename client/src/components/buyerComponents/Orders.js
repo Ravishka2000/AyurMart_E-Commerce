@@ -49,7 +49,7 @@ const Orders=()=>{
       variant="h4">
         My Orders
       </Typography>
-        <TableContainer component={Paper} sx={{margin:"auto",width:500}} elevation={0}>
+        <TableContainer component={Paper} sx={{margin:"auto",width:650}} elevation={0}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                 <TableRow>

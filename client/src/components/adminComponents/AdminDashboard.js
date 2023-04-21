@@ -14,6 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Users from './Users';
 import AllOrders from './AllOrders';
 import CouponBoard from './CouponBoard';
+import UsersChart from './UsersChart';
 
 
 const AdminDashboard=()=>{
@@ -130,6 +131,20 @@ const AdminDashboard=()=>{
                         <ListItemText primary="Manage Coupons" />
                       </ListItemButton>
                     </List>
+                    <List>
+                      <ListItemButton
+                        onClick={() => handleLinkClick('link4')}
+                        className={activeLink === 'link4' ? 'active' : ''}
+                        sx={{
+                            backgroundColor: activeLink === 'link4' ? '#e0e0e0' : 'transparent', 
+                            '&:hover': {
+                              backgroundColor: '#e0e0e0',
+                            },
+                          }}
+                      >
+                        <ListItemText primary="Statistic displays" />
+                      </ListItemButton>
+                    </List>
                   </Box>
                   </Item>
                 </Grid>
@@ -138,6 +153,7 @@ const AdminDashboard=()=>{
                   {activeLink === 'link1' && <AllOrders />}
                   {activeLink === 'link2' && <Users />}
                   {activeLink === 'link3' && <CouponBoard />}
+                  {activeLink === 'link4' && <UsersChart/>}
                   </Item>
                 </Grid>
               </Grid>

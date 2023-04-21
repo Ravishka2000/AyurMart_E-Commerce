@@ -40,7 +40,12 @@ const EditInfo=({ onEditToggle })=>{
         
         console.log(email)
         
+
     },[user])
+
+    const handleCancelClick = ()=>{
+        onEditToggle()
+    }
 
     const handleSubmit= async(e)=>{
         e.preventDefault()
@@ -149,6 +154,10 @@ const EditInfo=({ onEditToggle })=>{
             sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
             >Save</Button>
             </Grid>
+
+            <Button variant="contained" onClick={handleCancelClick}
+        sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '45ch', padding: 2, margin: 2, fontWeight:"bold"}}
+        >Back</Button>   
         </Grid>
 
         {error && <Alert variant="filled" severity="error" style={{fontWeight:"bold",color: "#063970"}}>{error}</Alert>}

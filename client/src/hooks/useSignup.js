@@ -8,7 +8,7 @@ export const useSignup = ()=>{
     const { dispatch } = useAuthContext()
    
 
-    const signup = async(email,password,firstName,lastName,mobile) =>{
+    const signup = async(email,password,firstName,lastName,mobile,role) =>{
         setIsLoading(true)
         setError(null)
 
@@ -17,9 +17,10 @@ export const useSignup = ()=>{
             password,
             firstName,
             lastName,
-            mobile
+            mobile,
+            role
         }
-        axios.post('api/user/register',data,{
+        axios.post('/api/user/register',data,{
             headers: {'Content-Type':"application/json"}
         })
         .then(response=>{

@@ -14,20 +14,29 @@ import Button from "@mui/material/Button";
 import axios from 'axios';
 import InboxIcon from '@mui/icons-material/Inbox';
 import Grid from '@mui/material/Grid';
+import {FormControl} from "@mui/material";
+import {Select} from "@mui/material";
+import {MenuItem} from "@mui/material";
 
 const AllOrders=()=>{
 
     const{user} = useAuthContext()
     const[orders,setOrders]=useState([])
 
-    const[status,setStatus]=useState("Approved")
+    const[status,setStatus]=useState("Pending")
 
 
-    const approveOrder=(id)=>{
-        axios.put('api/user/order/update-order/'+id,{status})
+    const approveOrder=(id,newStatus)=>{
+        axios.put('api/user/order/update-order/'+id, { status: newStatus })
         .then(response=>{
             if(response.status === 200){
-                const json = response.data
+                const updatedOrders = orders.map(order => {
+                    if (order._id === id) {
+                      return { ...order, orderStatus: newStatus };
+                    }
+                    return order;
+                  });
+                  setOrders(updatedOrders);
             }
             
         }).catch(error=>{
@@ -94,9 +103,21 @@ const AllOrders=()=>{
                     {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell component="th" align="right" >
-                    <Button variant="contained" type="submit" onClick={() =>{approveOrder(order._id)}} sx={{ color: 'white', backgroundColor: "#063970", borderColor: 'green', width: '15ch', fontWeight:"bold"}}>
-                    {order.orderStatus!="Approved"?"Not Approved":"Approved"} 
-                    </Button>
+                    <FormControl>
+                        <Select
+                          value={order.orderStatus}
+                          onChange={(e) => {
+                            
+                            approveOrder(order._id, e.target.value);
+                          }}
+                        >
+                          <MenuItem value="Pending">Pending</MenuItem>
+                          <MenuItem value="Confirm">Confirm</MenuItem>
+                          <MenuItem value="Dispatched">Dispatched</MenuItem>
+                          <MenuItem value="Delivered">Delivered</MenuItem>
+                        </Select>
+                      </FormControl>
+
                     </TableCell>
 
                 </TableRow>  
