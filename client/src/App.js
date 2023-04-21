@@ -16,9 +16,10 @@ import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./components/buyerComponents/UserProfile";
 import CheckoutSuccess from "./components/buyerComponents/CheckoutSuccess";
 import NotFound from "./components/buyerComponents/NotFound";
-import AdminDashboard from "./components/adminComponents/AdminDashboard";
 import SellerDashboard from "./components/sellerComponents/SellerDashboard";
 import AddProductForm from "./components/sellerComponents/AddProductForm";
+import AdminDashboard from "./components/adminComponents/AdminDashboard"
+import SellerSignup from "./pages/SellerRegister";
 
 function App() {
   const { user } = useAuthContext()
@@ -38,14 +39,15 @@ function App() {
                     <Route path="/login" element={!user ? <Login /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/reset-password" element={!user ? <ForgetPassword /> :<Navigate to="/"></Navigate>}/>
                     <Route path="/api/user/reset-password/:token" element={<ResetPassword />} exact></Route>
-                    <Route path="/user-profile" element={<UserProfile />} exact></Route>
+                    <Route path="/user-profile" element={user ? <UserProfile /> :<Navigate to="/"></Navigate>} exact></Route>
                     <Route path="/contact" element={<Contact />} exact></Route>
                     <Route path="/about" element={<About />} exact></Route>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
-                    <Route path="/admin-dashboard" element={<AdminDashboard/>} exact></Route>
                     <Route path="/seller-dashboard" element={<SellerDashboard/>} exact></Route>
                     <Route path="/addProduct" element={<AddProductForm/>} exact></Route>
+                    <Route path="/admin-dashboard" element={user ? <AdminDashboard /> :<Navigate to="/login"></Navigate>} exact></Route>
+                    <Route path="/sign-up/seller" element={<SellerSignup/>} exact></Route>
                 </Routes>
             </main>
 

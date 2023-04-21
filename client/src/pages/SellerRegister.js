@@ -13,13 +13,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert"
 
-const Signup = () =>{
+const SellerSignup = () =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [firstName,setfirstName] = useState('');
     const [lastName,setlastName] = useState('');
     const [mobile,setMobile] = useState('');
-    const [role,setRole] = useState('Customer');
+    const [role,setRole] = useState('Seller');
     
     const [showPassword, setShowPassword] = useState(false);
 
@@ -62,7 +62,7 @@ const Signup = () =>{
                 <Box 
                 textAlign="center">
                 <h1>
-                Create an account
+                Create a Buyer Account
                 </h1>
                 </Box>
             </Grid>
@@ -162,4 +162,4 @@ const Signup = () =>{
 
 }
 
-export default Signup;
+export default SellerSignup;
