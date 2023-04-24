@@ -31,6 +31,9 @@ var productSchema = new mongoose.Schema({
         type:Number,
         required:true,
     },
+    seller_id: {
+        type:String,
+    },
     sold: {
         type:Number,
         default:0,

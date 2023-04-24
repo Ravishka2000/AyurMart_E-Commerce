@@ -19,10 +19,13 @@ import NotFound from "./components/buyerComponents/NotFound";
 import SellerDashboard from "./components/sellerComponents/SellerDashboard";
 import AddProductForm from "./components/sellerComponents/AddProductForm";
 import AdminDashboard from "./components/adminComponents/AdminDashboard"
-import SellerSignup from "./pages/SellerRegister";
+import SellerSignup from "./pages/SellerSignup";
+import SellerLogin from "./pages/SellerLogin";
+import { useSellerAuthContext } from "./hooks/useSellerAuthContext";
 
 function App() {
   const { user } = useAuthContext()
+  const { seller } = useSellerAuthContext()
     return (
         <React.Fragment>
             <Header>
@@ -44,10 +47,11 @@ function App() {
                     <Route path="/about" element={<About />} exact></Route>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
-                    <Route path="/seller-dashboard" element={<SellerDashboard/>} exact></Route>
                     <Route path="/addProduct" element={<AddProductForm/>} exact></Route>
                     <Route path="/admin-dashboard" element={user ? <AdminDashboard /> :<Navigate to="/login"></Navigate>} exact></Route>
-                    <Route path="/sign-up/seller" element={<SellerSignup/>} exact></Route>
+                    <Route path="/seller-dashboard" element={seller ? <SellerDashboard/>: <Navigate to="/SellerLogin"></Navigate>} exact></Route>
+                    <Route path="/sellerSignup" element={!seller ? <SellerSignup/>: <Navigate to="/seller-dashboard"></Navigate>} exact></Route>
+                    <Route path="/sellerLogin" element={!seller ?<SellerLogin/>: <Navigate to="/seller-dashboard"></Navigate>} exact></Route>
                 </Routes>
             </main>
 

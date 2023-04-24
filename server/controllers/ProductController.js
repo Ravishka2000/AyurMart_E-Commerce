@@ -20,6 +20,7 @@ const createProduct = asyncHandler (async (req, res) => {
     }
 });
 
+
 const getaProduct = asyncHandler (async (req, res) => {
     const { id } = req.params;
     try {
