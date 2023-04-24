@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
 import { ProductsContextProvider } from './context/ProductContext';
+import { SellerAuthContextProvider } from './context/SellerAuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,9 +13,11 @@ root.render(
     <BrowserRouter>
         <React.StrictMode>
             <AuthContextProvider>
-                <ProductsContextProvider>
-                    <App />
-                </ProductsContextProvider>
+                <SellerAuthContextProvider>
+                    <ProductsContextProvider>
+                        <App />
+                    </ProductsContextProvider>
+                </SellerAuthContextProvider>
             </AuthContextProvider>
         </React.StrictMode>
     </BrowserRouter>

@@ -106,6 +106,15 @@ div.error {
   color: #063970;
 }
 
+/* auth forms */
+form.signup, form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
+
 
 
 

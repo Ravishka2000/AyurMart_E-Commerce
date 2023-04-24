@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { Box, Card, CardMedia, CardContent, Typography, Rating, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Button } from '@mui/material';
 import { useProductsContext } from '../../hooks/useProductsContext';
+import { useSellerLogout } from '../../hooks/useSellerLogout'
+import { useSellerAuthContext } from '../../hooks/useSellerAuthContext';
 
 const SellerDashboard = () => {
-
     const { products, dispatch } = useProductsContext()
+    const { seller } = useSellerAuthContext()
 
     useEffect(() => {
         const fetchProducts = async () => {
-        const response = await fetch('/api/product')
+        const response = await fetch('/api/seller', {
+            headers: {'Authorization': `Bearer ${seller.token}`},
+        })
         const json = await response.json()
       
         if (response.ok) {
@@ -17,8 +21,10 @@ const SellerDashboard = () => {
         }
         }
       
-        fetchProducts()
-    }, [dispatch]);
+        if(seller){
+            fetchProducts()
+        }
+    }, [dispatch, seller]);
 
     const handleDelete = async (productId) => {
         const response = await fetch('/api/product/' + productId, {
@@ -31,6 +37,12 @@ const SellerDashboard = () => {
         }
       }
 
+    const { sellerlogout } = useSellerLogout()
+
+    const handleClick = () => {
+        sellerlogout()
+    }
+
     return (
         <Box sx={{ display: 'flex' }}>
             <div className="container">
@@ -41,7 +53,18 @@ const SellerDashboard = () => {
                 <div className="menu">
                 <Link to="/seller-dashboard">Seller Dashboard</Link>
                 <Link to="/addProduct">Add Product</Link>
-                <Link to="/profile">Profile</Link>
+                {!seller && (
+                    <div>
+                        <Link to="/sellerLogin">Login</Link>
+                        <Link to="/sellerSignup">Signup</Link>
+                    </div>
+                )}
+                {seller && (
+                    <div>
+                        <Button onClick={handleClick}>Log Out</Button>
+                        <span>{seller.email}</span>
+                        </div>
+                )}
                 </div>
             </div>
             <div className="content">
