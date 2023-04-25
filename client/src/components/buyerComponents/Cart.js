@@ -240,7 +240,7 @@ const CartPage = () => {
                         </PayPalScriptProvider> */}
                         
 
-                    <Button color="success" variant="contained" sx={{ px: "180px" }} LinkComponent={Link}  to="../payment.js" >PayNow</Button>
+                    <Button color="success" variant="contained" sx={{ px: "180px" }} LinkComponent={Link}  to="../payment" >PayNow</Button>
 
                     </CardContent>
                     <CardContent>
