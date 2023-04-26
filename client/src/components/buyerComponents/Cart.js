@@ -4,8 +4,8 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Box, Button, Card, CardContent, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import PayButton from "./PayButton";
+import { Link } from 'react-router-dom';
+
 
 const CartPage = () => {
     const { user } = useAuthContext();
@@ -228,16 +228,19 @@ const CartPage = () => {
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Net Total</Typography>
                             <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.totalAfterDiscount : cart && cart.cartTotal ? cart.cartTotal : 0}.00</Typography>
                         </Box>
-                        <h3 align="center" fullWidth variant="contained" color="success">Proceed Checkout with</h3>
+                        
 
-                        <PayPalScriptProvider
+                        {/* <PayPalScriptProvider
                             options={{
                                 "client-id": "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP",
                             }}
                         >
                             <PayPalButtons createOrder={handleCreateOrder} onApprove={handleCaptureOrder} />
                             {isOrderComplete && <p>Your order has been placed successfully!</p>}
-                        </PayPalScriptProvider>
+                        </PayPalScriptProvider> */}
+                        
+
+                    <Button color="success" variant="contained" sx={{ px: "180px" }} LinkComponent={Link}  to="../payment" >PayNow</Button>
 
                     </CardContent>
                     <CardContent>
