@@ -4,7 +4,8 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Box, Button, Card, CardContent, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { Link } from 'react-router-dom';
+
 
 const CartPage = () => {
     const { user } = useAuthContext();
@@ -294,8 +295,13 @@ const CartPage = () => {
                         </Box>
                         <h3 align="center" fullWidth variant="contained" color="success">Proceed Checkout with</h3>
 
-                        <PayPalScriptProvider options={{ "client-id": "AQ8S2I745Z01ocM7K0GdX93tmOxIii-t5BNxq0gnbORUeC-CZE_-jIzxDeL2-LsMiMqHx1_i7QW2GOK6" }}>
-                            <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
+                        <PayPalScriptProvider
+                            options={{
+                                "client-id": "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP",
+                            }}
+                        >
+                            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleCaptureOrder} />
+                            {isOrderComplete && <p>Your order has been placed successfully!</p>}
                         </PayPalScriptProvider>
 
                     </CardContent>
