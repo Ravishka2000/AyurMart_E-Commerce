@@ -47,7 +47,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} exact></Route>
                     <Route path="/about" element={<About />} exact></Route>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>} exact></Route>
-                    <Route path="/payment" element={<Payment/>} exact></Route>
+                    <Route path="/payment/:cart" element={<Payment/>} exact></Route>
                     <Route path="*" element={<NotFound/>} exact></Route>
                     <Route path="/addProduct" element={<AddProductForm/>} exact></Route>
                     <Route path="/admin-dashboard" element={user ? <AdminDashboard /> :<Navigate to="/login"></Navigate>} exact></Route>

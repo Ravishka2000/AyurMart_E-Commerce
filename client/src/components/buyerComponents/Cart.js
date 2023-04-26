@@ -295,15 +295,7 @@ const CartPage = () => {
                         </Box>
                         <h3 align="center" fullWidth variant="contained" color="success">Proceed Checkout with</h3>
 
-                        <PayPalScriptProvider
-                            options={{
-                                "client-id": "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP",
-                            }}
-                        >
-                            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleCaptureOrder} />
-                            {isOrderComplete && <p>Your order has been placed successfully!</p>}
-                        </PayPalScriptProvider>
-
+                        <Button color="success" variant="contained" sx={{px:"180px"}} LinkComponent={Link} to={`/payment/${cart}`}>Pay Now</Button>
                     </CardContent>
                     <CardContent>
 
