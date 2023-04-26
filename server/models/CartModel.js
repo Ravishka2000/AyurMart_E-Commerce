@@ -11,6 +11,7 @@ var cartSchema = new mongoose.Schema({
         price: Number,
     }],
     cartTotal: Number,
+    tax: Number,
     totalAfterDiscount: Number,
     orderby: {
         type: mongoose.Schema.Types.ObjectId,

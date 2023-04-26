@@ -5,13 +5,14 @@ import { Box, Button, Card, CardContent, Grid, IconButton, Table, TableBody, Tab
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import PayButton from "./PayButton";
 
 const CartPage = () => {
     const { user } = useAuthContext();
     const [cart, setCart] = useState(null);
     const [textFieldValue, setTextFieldValue] = useState('');
     const [couponApplied, setCouponApplied] = useState(false);
+    const [cartTotal, setCartTotal] = useState(0);
+
 
     const [isOrderComplete, setIsOrderComplete] = useState(false);
 
@@ -30,6 +31,8 @@ const CartPage = () => {
                     config
                 );
                 setCart(response.data);
+                const total = response.cartTotal;
+        setCartTotal(total);
             } catch (error) {
                 console.log(error.message);
             }
@@ -71,7 +74,7 @@ const CartPage = () => {
 
     const calculateCartTotal = (products) => {
         let cartTotal = 0;
-        for (let i = 0;i < products.length;i++) {
+        for (let i = 0; i < products.length; i++) {
             cartTotal += products[i].price * products[i].count;
         }
         return cartTotal;
@@ -121,38 +124,95 @@ const CartPage = () => {
         setTextFieldValue(event.target.value);
     };
 
-    const handleCreateOrder = (data, actions) => {
-        return actions.order.create({
-            purchase_units: [
-                {
-                    amount: {
-                        value: cart.cartTotal,
+    // const handleCreateOrder = (data, actions) => {
+    //     return actions.order.create({
+    //         purchase_units: [
+    //             {
+    //                 amount: {
+    //                     value: cart.cartTotal,
+    //                 },
+    //             },
+    //         ],
+    //     });
+    // };
+
+    // const handleCaptureOrder = async (data, actions) => {
+    //     const token = user.token;
+    //     const orderData = {
+    //         couponApplied: couponApplied
+    //     };
+
+    //     try {
+    //         const response = await axios.post('http://localhost:7002/api/user/cart/order', orderData, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: `Bearer ${token}`,
+    //             }
+    //         })
+    //         const orderId = response.data._id;
+    //         setIsOrderComplete(true);
+    //         return actions.order.capture();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    const [show, setShow] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [ErrorMessage, setErrorMessage] = useState("");
+    const [orderID, setOrderID] = useState(false);
+
+
+    // creates a paypal order
+    const createOrder = (data, actions) => {
+        if (!cartTotal){
+            return;
+        }
+        return actions.order
+            .create({
+                purchase_units: [
+                    {
+                        description: "AYURMART",
+                        amount: {
+                            currency_code: "USD",
+                            value: cartTotal,
+                        },
                     },
+                ],
+                // not needed if a shipping address is actually needed
+                application_context: {
+                    shipping_preference: "NO_SHIPPING",
                 },
-            ],
+            })
+            .then((orderID) => {
+                setOrderID(orderID);
+                return orderID;
+            });
+    };
+
+    // check Approval
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+            const { payer } = details;
+            setSuccess(true);
         });
     };
-
-    const handleCaptureOrder = async (data, actions) => {
-        const token = user.token;
-        const orderData = {
-            couponApplied: couponApplied
-        };
-
-        try {
-            const response = await axios.post('http://localhost:7002/api/user/cart/order', orderData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            const orderId = response.data._id;
-            setIsOrderComplete(true);
-            return actions.order.capture();
-        } catch (error) {
-            console.log(error);
-        }
+    //capture likely error
+    const onError = (data, actions) => {
+        setErrorMessage("An Error occured with your payment ");
     };
+
+    useEffect(() => {
+        if (success) {
+            alert("Payment successful!!");
+        }
+    },
+        [success]
+    );
+
+    console.log(1, orderID);
+    console.log(2, success);
+    console.log(3, ErrorMessage);
 
     return (
         <Grid container sx={{ mt: 20 }}>
@@ -218,25 +278,24 @@ const CartPage = () => {
                         <Typography variant="h5" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Order Summary</Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: "30px" }}>
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Items Total</Typography>
-                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal ? cart.cartTotal : 0}.00</Typography>
+                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.tax ? cart.cartTotal - cart.tax : 0}</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Discount</Typography>
-                            <Typography color="error" sx={{ textAlign: 'right' }}> - Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.cartTotal - cart.totalAfterDiscount : 0}.00</Typography>
+                            <Typography color="error" sx={{ textAlign: 'right' }}> - Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.cartTotal - cart.totalAfterDiscount : 0}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Tax</Typography>
+                            <Typography color="error" sx={{ textAlign: 'right' }}> + Rs.{cart && cart.tax ? cart.tax : 0}</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="body1" sx={{ mb: '20px', textAlign: 'left', fontWeight: "900" }}>Net Total</Typography>
-                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.totalAfterDiscount : cart && cart.cartTotal ? cart.cartTotal : 0}.00</Typography>
+                            <Typography sx={{ textAlign: 'right' }}>Rs.{cart && cart.cartTotal && cart.totalAfterDiscount ? cart.totalAfterDiscount : cart && cart.cartTotal ? cart.cartTotal : 0}</Typography>
                         </Box>
                         <h3 align="center" fullWidth variant="contained" color="success">Proceed Checkout with</h3>
 
-                        <PayPalScriptProvider
-                            options={{
-                                "client-id": "ASA8MWDOrNXzkSwefQez3QcWi_1hOO0JkJaUrD92WY6rS8yswgSE7yCLly0A-IOZmko18oFKTXPDYylP",
-                            }}
-                        >
-                            <PayPalButtons createOrder={handleCreateOrder} onApprove={handleCaptureOrder} />
-                            {isOrderComplete && <p>Your order has been placed successfully!</p>}
+                        <PayPalScriptProvider options={{ "client-id": "AQ8S2I745Z01ocM7K0GdX93tmOxIii-t5BNxq0gnbORUeC-CZE_-jIzxDeL2-LsMiMqHx1_i7QW2GOK6" }}>
+                            <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
                         </PayPalScriptProvider>
 
                     </CardContent>

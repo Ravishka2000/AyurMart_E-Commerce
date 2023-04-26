@@ -369,6 +369,8 @@ const getWishlist = asyncHandler(async (req, res) => {
 const userCart = asyncHandler(async (req, res) => {
     const { cart } = req.body;
     const { _id } = req.user;
+    let total = 0;
+    let tax = 0;
     try {
         let products = [];
         const user = await User.findById(_id);
@@ -396,7 +398,10 @@ const userCart = asyncHandler(async (req, res) => {
                 }
             }
             alreadyExistCart.products = products;
-            alreadyExistCart.cartTotal = calculateCartTotal(products);
+             total = calculateCartTotal(products);
+             tax = total * 0.03;
+             alreadyExistCart.cartTotal = total + tax;
+             alreadyExistCart.tax = tax;
             const updatedCart = await alreadyExistCart.save();
             res.json(updatedCart);
         } else {
@@ -413,9 +418,12 @@ const userCart = asyncHandler(async (req, res) => {
                 products.push(object);
             }
             let cartTotal = calculateCartTotal(products);
+            let tax = cartTotal * 0.03;
+            cartTotal += tax;
             let newCart = await new Cart({
                 products,
                 cartTotal,
+                tax,
                 orderby: user?._id,
             }).save();
             res.json(newCart);
