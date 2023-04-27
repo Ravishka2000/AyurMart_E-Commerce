@@ -9,11 +9,14 @@ import generateToken from "../config/jwtToken.js";
 import generateRefreshToken from "../config/refreshToken.js";
 
 
-//Register
+//Register User 
 const createUser = asyncHandler(async (req, res) => {
+
+    //get from the body
     const { firstName, lastName, email, mobile, password,role } = req.body;
     const findUser = await User.findOne({ email });
 
+    //validate inputs
     if (!email || !password || !firstName || !lastName || !mobile) {
         res.status(400);
         throw new Error("Please fill out all fields");
@@ -34,6 +37,7 @@ const createUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email });
 
+    //creating refreshtoken 
     if (user) {
         const refreshToken = generateRefreshToken(user?._id);
         const { _id, firstName, email, mobile,role } = user;
@@ -61,14 +65,16 @@ const createUser = asyncHandler(async (req, res) => {
     }
 });
 
-//login
+//login User 
 const loginUser = asyncHandler(async (req, res) => {
+    //get email and password from body 
     const { email, password } = req.body;
     if (!email || !password) {
         res.status(400);
         throw new Error("Please enter email and password");
     }
 
+    //validate user
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -78,6 +84,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
+    //create refresh token
     if (user && passwordIsCorrect) {
         const refreshToken = generateRefreshToken(user?._id);
         const { _id, firstName, email, mobile,role } = user;
@@ -108,6 +115,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
 });
+
 
 //login as admin
 const loginAdmin = asyncHandler(async (req, res) => {
@@ -189,6 +197,7 @@ const getUser = asyncHandler(async (req, res) => {
 
 //delete a user
 const deleteUser = asyncHandler(async (req, res) => {
+    //get id from req.params
     const { id } = req.params;
     try {
         const user = await User.findByIdAndDelete(id);
@@ -200,8 +209,10 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 //update user
 const updateUser = asyncHandler(async (req, res) => {
+    //get id from req.params
     const { _id } = req.user;
     const { firstName, lastName, email, mobile } = req.body;
+
     try {
         const updatedUser = await User.findByIdAndUpdate(_id, {
             firstName,
@@ -312,8 +323,10 @@ const updatePassword = asyncHandler(async (req, res) => {
 
 //forgot password
 const forgotPasswordToken = asyncHandler(async (req, res) => {
+    //get the email from the body
     const { email } = req.body;
     const user = await User.findOne({ email });
+
     if(!email){
         throw new Error("Please enter the email");
     }
@@ -321,6 +334,7 @@ const forgotPasswordToken = asyncHandler(async (req, res) => {
         throw new Error("Invalid email");
     }
     try {
+        //send the reset password link
         const token = await user.createPasswordResetToken();
         await user.save();
         const resetURL = `Hi, Please follow this link to reset your password. This link is valid till 10 minutes from now. <a href='http://localhost:3000/api/user/reset-password/${token}'>Click Here</a>`;
@@ -348,6 +362,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 //reset password
 const resetPassword = asyncHandler(async (req, res) => {
+    //get new password from req.body
     const { password } = req.body;
     const { token } = req.params;
     const hashToken = crypto.createHash("sha256").update(token).digest("hex");
@@ -405,6 +420,7 @@ const addToWishlist = asyncHandler (async (req, res) => {
     }
 });
 
+//verify token 
 const verifyToken = asyncHandler(async (req, res) => {
     res.status(200).json({ user: req.user });
 });
