@@ -29,6 +29,7 @@ const getaProduct = asyncHandler(async (req, res) => {
         if (!product) {
             res.json(null);
         } else {
+            // populate product ratings
             const populatedProduct = await Promise.all(
                 product.ratings.map(async (rating) => {
                     const { postedby } = rating;
@@ -48,15 +49,18 @@ const getaProduct = asyncHandler(async (req, res) => {
 //function to get all products to home page
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
+        // query products
         const queryObj = { ...req.query };
         const excludeFields = ['page', 'sort', 'limit', 'fields'];
         excludeFields.forEach(el => delete queryObj[el]);
 
+        // filter by price
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
         let query = Product.find(JSON.parse(queryStr));
 
+        // sort products
         if (req.query.sort) {
             const sortBy = req.query.sort.split(',').join(" ");
             query = query.sort(sortBy);
@@ -71,6 +75,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
             query = query.select("-__v")
         }
 
+        // pagination
         const page = req.query.page;
         const limit = req.query.limit;
         const skip = (page - 1) * limit;
@@ -165,6 +170,7 @@ const rating = asyncHandler(async (req, res) => {
     }
 });
 
+// Upload images
 const uploadImages = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { _id } = req.user;
