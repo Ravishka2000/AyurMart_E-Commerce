@@ -9,9 +9,10 @@ const createOrder = asyncHandler(async (req, res) => {
     
     console.log(req.user);
     try {
+        //get user cart
         let response = await axios.get(`http://cart:7001/api/checkout/cart`, {
             headers: {
-                'Authorization': `Bearer ${req.headers.authorization.split(' ')[1]}`
+                'Authorization': `Bearer ${req.headers.authorization.split(' ')[1]}` //Verify token
             }
         })
         const userCart = response.data
@@ -23,6 +24,7 @@ const createOrder = asyncHandler(async (req, res) => {
             finalAmount = userCart.cartTotal;
         }
 
+        //set order details
         let newOrder = await new Order({
             products: userCart.products,
             paymentIntent: {
@@ -38,6 +40,8 @@ const createOrder = asyncHandler(async (req, res) => {
             delivery: "DHL"
         }).save();
         userCart.products
+        
+        //increase the sold count of the product
         let update = userCart.products.map((item) => {
             return {
                 updateOne: {
@@ -47,6 +51,7 @@ const createOrder = asyncHandler(async (req, res) => {
             }
         })
         
+        //update sold count
         axios.put("http://product:7005/api/product/",{updates: update},{
             headers: {
                 'Authorization': `Bearer ${req.headers.authorization.split(' ')[1]}`
