@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userauth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userauth
+  template:
+    metadata:
+      labels:
+        app: userauth
+    spec:
+      containers:
+        - name: userauth
+          image: hiranyap/ayurmart-microservice-userauth:latest
+          ports:
+            - containerPort: 7002
+          env:
+              - name: PORT
+                value: "7002"
+              - name: MONGOOSE_URI
+                value: "mongodb+srv://admin:1234@cluster0.imhalsb.mongodb.net/store?retryWrites=true&w=majority"
+              - name: JWT_SECRET
+                value: "mysecret"
+              - name: MAIL_ID
+                value: "ravishkadulshan1@gmail.com"
+              - name: MP
+                value: "svmsvcqzwurzzifn"
+              - name: CLOUD_NAME
+                value: "ducirgwnz"
+              - name: API_KEY
+                value: "941554916254513"
+              - name: API_SECRET
+                value: "GQV-SrbW7EgT8VRlgNAEBBt_AIY"
+              - name: STRIPE_KEY
+                value: "sk_test_51LgRALJZjx4X8KOAKKxdTPIn9k05X8Rf0u9cFaoHAzaGMfnGS0qBcpT6weM2V1e5fkPOevxE7kPJla0gvao66BdC00hGWhmzp0"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: userauth-service
+spec:
+  selector:
+    app: userauth
+  ports:
+    - name: http
+      protocol: TCP
+      port: 7002
+      targetPort: 7002
+  type: NodePort

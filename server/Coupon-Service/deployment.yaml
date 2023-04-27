@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coupon-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coupon
+  template:
+    metadata:
+      labels:
+        app: coupon
+    spec:
+      containers:
+        - name: coupon
+          image: hiranyap/ayurmart-microservice-coupon     
+          ports:
+            - containerPort: 7003
+          env:
+              - name: PORT
+                value: "7003"
+              - name: MONGOOSE_URI
+                value: "mongodb+srv://admin:1234@cluster0.imhalsb.mongodb.net/store?retryWrites=true&w=majority"
+              - name: JWT_SECRET
+                value: "mysecret"
+              - name: MAIL_ID
+                value: "ravishkadulshan1@gmail.com"
+              - name: MP
+                value: "svmsvcqzwurzzifn"
+              - name: CLOUD_NAME
+                value: "ducirgwnz"
+              - name: API_KEY
+                value: "941554916254513"
+              - name: API_SECRET
+                value: "GQV-SrbW7EgT8VRlgNAEBBt_AIY"
+              - name: STRIPE_KEY
+                value: "sk_test_51LgRALJZjx4X8KOAKKxdTPIn9k05X8Rf0u9cFaoHAzaGMfnGS0qBcpT6weM2V1e5fkPOevxE7kPJla0gvao66BdC00hGWhmzp0"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: coupon-service
+spec:
+  selector:
+    app: coupon
+  ports:
+    - name: http
+      protocol: TCP
+      port: 7003
+      targetPort: 7003
+  type: NodePort

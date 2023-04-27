@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+        - name: product
+          image: hiranyap/ayurmart-microservice-product:latest
+          ports:
+            - containerPort: 7005
+          env:
+              - name: PORT
+                value: "7005"
+              - name: MONGOOSE_URI
+                value: "mongodb+srv://admin:1234@cluster0.imhalsb.mongodb.net/store?retryWrites=true&w=majority"
+              - name: JWT_SECRET
+                value: "mysecret"
+              - name: MAIL_ID
+                value: "ravishkadulshan1@gmail.com"
+              - name: MP
+                value: "svmsvcqzwurzzifn"
+              - name: CLOUD_NAME
+                value: "ducirgwnz"
+              - name: API_KEY
+                value: "941554916254513"
+              - name: API_SECRET
+                value: "GQV-SrbW7EgT8VRlgNAEBBt_AIY"
+              - name: STRIPE_KEY
+                value: "sk_test_51LgRALJZjx4X8KOAKKxdTPIn9k05X8Rf0u9cFaoHAzaGMfnGS0qBcpT6weM2V1e5fkPOevxE7kPJla0gvao66BdC00hGWhmzp0"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  selector:
+    app: product
+  ports:
+    - name: http
+      protocol: TCP
+      port: 7005
+      targetPort: 7005
+  type: NodePort

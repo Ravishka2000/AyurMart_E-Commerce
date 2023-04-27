@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  userauth:
+    build: ./server/UserAuth-Service
+    ports:
+      - "7002:7002"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+  
+  cart:
+    build: ./server/Shopping-cart
+    ports:
+      - "7001:7001"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+  
+  product:
+    build: ./server/Product-Service
+    ports:
+      - "7005:7005"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+
+  order:
+    build: ./server/Order-Service
+    ports:
+      - "7006:7006"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+  
+  coupon:
+    build: ./server/Coupon-Service
+    ports:
+      - "7003:7003"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+  
+   
+  seller:
+    build: ./server/Seller-Service
+    ports:
+      - "7004:7004"
+    environment:
+      DB_URL: mongodb://db/store
+    networks:
+      ayurmart-network:
+  
+  web:
+    build: ./client
+    ports:
+      - "3000:3000"
+    networks:
+      ayurmart-network:
+  db:
+    image: mongo:4.0-xenial
+    ports:
+      - "27017:27017"
+    volumes:
+      - AYURMART-Microservice:/data/db
+    networks:
+      ayurmart-network:
+
+networks:
+  ayurmart-network:
+
+volumes:
+  AYURMART-Microservice:
