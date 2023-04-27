@@ -110,14 +110,18 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 });
 
+//product rating
 const rating = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     const { star, prodId, comment } = req.body;
     try {
+        //get Product
         const product = await Product.findById(prodId);
+        //check the user has already reviewed
         let alreadyRated = product.ratings.find(
             (userId) => userId.postedby.toString() === _id.toString()
         );
+        //Update the review if already rated before
         if (alreadyRated) {
             const updateRating = await Product.updateOne({
                 ratings: { $elemMatch: alreadyRated }
@@ -130,6 +134,7 @@ const rating = asyncHandler(async (req, res) => {
                 new: true,
             });
         } else {
+            //create review
             const rateProduct = await Product.findByIdAndUpdate(prodId, {
                 $push: {
                     ratings: {
@@ -145,7 +150,7 @@ const rating = asyncHandler(async (req, res) => {
         const getAllratings = await Product.findById(prodId);
         let totalRatings = getAllratings.ratings.length;
         let ratingsum = getAllratings.ratings.map((item) => item.star).reduce((prev, curr) => prev + curr, 0);
-        let actualRating = Math.round(ratingsum / totalRatings);
+        let actualRating = Math.round(ratingsum / totalRatings); //calculate actual rating
         let finalProduct = await Product.findByIdAndUpdate(prodId, {
             totalrating: actualRating,
         })
