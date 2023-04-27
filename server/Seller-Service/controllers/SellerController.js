@@ -3,6 +3,7 @@ import Seller from "../models/Seller.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 
+//function to get a specific product
 const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
@@ -13,6 +14,7 @@ const getaProduct = asyncHandler(async (req, res) => {
     }
 });
 
+//function to get all products to the seller dashboard
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
         const response = await axios.get(`http://product:7005/api/product/`)
@@ -23,6 +25,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     }
 });
 
+//function to add product
 const createProdcut = asyncHandler(async (req, res) => {
     const product = req.body
     try {
@@ -40,7 +43,7 @@ const createProdcut = asyncHandler(async (req, res) => {
     }
 })
 
-
+// function to create token
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' })
 }

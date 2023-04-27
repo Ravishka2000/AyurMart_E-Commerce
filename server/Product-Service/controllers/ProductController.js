@@ -5,6 +5,7 @@ import cloudinaryUploadImg from "../utils/cloudinary.js";
 import fs from 'fs';
 import axios from "axios";
 
+// function to add new product to the system
 const createProduct = asyncHandler(async (req, res) => {
     try {
         if (req.body.title) {
@@ -20,6 +21,7 @@ const createProduct = asyncHandler(async (req, res) => {
     }
 });
 
+//function to get a specific product to home page
 const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
@@ -43,6 +45,7 @@ const getaProduct = asyncHandler(async (req, res) => {
     }
 });
 
+//function to get all products to home page
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
         const queryObj = { ...req.query };
@@ -87,6 +90,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     }
 });
 
+// function to update a product
 const updateProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
@@ -100,6 +104,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 });
 
+// function to delete a product
 const deleteProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
