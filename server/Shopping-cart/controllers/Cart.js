@@ -9,6 +9,7 @@ const userCart = asyncHandler(async (req, res) => {
     let tax = 0;
     try {
         let products = [];
+        // check whether the product is already exist
         const alreadyExistCart = await Cart.findOne({ orderby: _id });
         if (alreadyExistCart) {
             products = alreadyExistCart.products;
@@ -46,6 +47,7 @@ const userCart = asyncHandler(async (req, res) => {
                 object._id = cart[i]._id
                 object.product = cart[i]._id;
                 object.count = cart[i].count;
+                // get price of the product
                 let getPrice = await axios.get(`http://product:7005/api/product/${cart[i]._id}`, {
                     headers: {
                         'Authorization': `Bearer ${req.headers.authorization.split(' ')[1]}`
@@ -94,6 +96,7 @@ const applyCoupon = asyncHandler(async (req, res) => {
         });
         const resCoupon = response.data;
 
+        // check whether the coupon is Valid
         const validCoupon = resCoupon.find((c) => c.name.toLowerCase() === coupon.toLowerCase());
 
         if (!validCoupon) {
@@ -139,6 +142,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
             { new: true }
         )
 
+        // update the cart total
         const newCartTotal = calculateCartTotal(updatedCart.products);
         updatedCart.cartTotal = newCartTotal;
         await updatedCart.save();
@@ -163,6 +167,8 @@ const getUserCart = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: "Cart not found" });
         }
         const cart = await Cart.findOne({ orderby: _id });
+        
+        // populate products in the cart
         const populatedCart = await Promise.all(
             cart.products.map(async (product) => {
                 const _id = product.product;
